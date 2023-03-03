@@ -11,7 +11,8 @@ key = secrets_.google_key
 p = {
     'inputtype': 'textquery',
     'key': key,
-    'fields': 'name,formatted_address,geometry'
+    'fields': 'name,formatted_address,geometry',
+    'locationbias': 'circle:645000@39.5501,105.7821' # bias for results in Colorado
     }
 
 i = 0
@@ -65,6 +66,6 @@ df['google_name'] = name_list
 df['address'] = address_list
 
 # write to csv
-df.to_csv('co_stores_addresses.csv')
+df.to_csv('co_stores_addresses.csv', index = False)
 
 
