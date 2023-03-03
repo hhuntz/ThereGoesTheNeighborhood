@@ -1,12 +1,13 @@
+import os
 import requests
 import pandas as pd
-import secrets
+import secrets_
 import json
 import numpy as np
 
 # initialize vars
 url = 'https://maps.googleapis.com/maps/api/place/findplacefromtext/json'
-key = secrets.google_key
+key = secrets_.google_key
 p = {
     'inputtype': 'textquery',
     'key': key,
@@ -16,7 +17,10 @@ p = {
 i = 0
 
 # read existing data
-df = pd.read_csv('co_cannabis_stores.csv')
+filename = 'co_cannabis_stores.csv'
+source_dir = os.path.dirname(__file__) #<-- directory name
+full_path = os.path.join(source_dir, filename)
+df = pd.read_csv(full_path)
 
 # initialize new var lists
 lat_list = []
@@ -26,10 +30,10 @@ address_list = []
 
 for store in df.iterrows():
     # grab store info
-    if store[1][6] > 0:
-        p['input'] = f'{store[1][2]} {int(store[1][6])}'
+    if store[1][1] > 0:
+        p['input'] = f'{store[1][0]} {int(store[1][1])} cannabis'
     else: # Oct 2017 data has no ZIP, so use city instead
-        p['input'] = f'{store[1][2]} {store[1][5]}'
+        p['input'] = f'{store[1][1]} {store[1][3]} cannabis'
 
     # make Google Maps API request
     r = requests.get(url, params = p)
@@ -50,7 +54,7 @@ for store in df.iterrows():
 
     # print periodic progress updates
     i += 1
-    if i % 500 == 0:
+    if i % 20 == 0:
         print(f'finished {i} of {len(df)} records')
         print(f'{round(i / len(df) * 100, 2)}% done')
 
