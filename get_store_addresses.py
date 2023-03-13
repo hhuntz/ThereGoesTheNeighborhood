@@ -7,6 +7,12 @@ import numpy as np
 
 
 def get_store_addresses(filename):
+    '''
+    queries Google Maps API for street addresses based on location search
+    requires local 'secrets_.py' file with API key
+    returns dataframe same as input file w/ additional columns
+    '''
+
     # initialize vars
     url = 'https://maps.googleapis.com/maps/api/place/findplacefromtext/json'
     key = secrets_.google_key
@@ -105,6 +111,9 @@ def geocode_addresses(data):
     '''
     takes df w/ address column
     returns census geocoded addresses
+    could use this or 'geocode_coords' function; 
+        coordinates will give a match for each query, 
+        but using addresses allows for more troubleshooting
     '''
     i = 0
 
@@ -152,22 +161,30 @@ def geocode_addresses(data):
     return data    
 
 def geocode_coords(data):
+    '''
+    uses FCC API to get county and census tract from lat/long
+    more useful than geocode_addresses, but only if you're sure the input coords are good
+    returns input dataframe with new columns for each record
+    '''
 
+    # initialize vars
     counties = []
     tracts = []
-
     url = 'https://geo.fcc.gov/api/census/block/find'
     params = {'censusYear': 2020, 'format': 'json'}
 
+    # make request for each store
     for store in data.itterrows():
         params['latitude'] = store['LAT']
         params['longitude'] = store['LONG']
         r = requests.get(url, params = params)
         try:
+            # parse JSON response
             j = json.loads(r.text)
             tracts.append(j['Block']['FIPS'][5:-4])
             counties.append(j['County']['name'])
         except:
+            # if no response, add NAN vals
             counties.append(np.nan)
             tracts.append(np.nan)
 
