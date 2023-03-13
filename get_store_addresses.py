@@ -33,9 +33,9 @@ def get_store_addresses(filename):
     for store in df.iterrows():
         # grab store info
         if store[1][1] > 0:
-            p['input'] = f'{store[1][0]} {int(store[1][1])} cannabis'
+            p['input'] = f'{store[1][0]} {int(store[1][1])} {store[1][3]}, CO dispensary'
         else: # Oct 2017 data has no ZIP, so use city instead
-            p['input'] = f'{store[1][1]} {store[1][3]} cannabis'
+            p['input'] = f'{store[1][1]} {store[1][3]} CO dispensary'
 
         # make Google Maps API request
         r = requests.get(url, params = p)
@@ -71,7 +71,7 @@ def get_store_addresses(filename):
 
     return df
 
-def reformat_addresses(data, out_fname = 'geocoder_input_addresses.csv'):
+def reformat_addresses(data):
     '''
     helper func to parse addresses to census geocoder format
     takes dataframe w/ address column
@@ -99,21 +99,14 @@ def reformat_addresses(data, out_fname = 'geocoder_input_addresses.csv'):
     addresses['zip'] = zips
 
 
-    source_dir = os.path.dirname(__file__) 
-    full_path = os.path.join(source_dir, out_fname)
-    addresses.to_csv(full_path)
+    return addresses
 
-def geocode_addresses(data = 'co_stores_addresses.csv'):
+def geocode_addresses(data):
     '''
     takes df w/ address column
     returns census geocoded addresses
     '''
     i = 0
-
-    source_dir = os.path.dirname(__file__)
-    full_path = os.path.join(source_dir, data)
-    addresses = pd.read_csv(full_path)
-    addresses = addresses.drop('Unnamed: 0', axis = 1)
 
     url = 'https://geocoding.geo.census.gov/geocoder/geographies/onelineaddress'
     params = {'benchmark': 'Public_AR_Current',
@@ -125,7 +118,7 @@ def geocode_addresses(data = 'co_stores_addresses.csv'):
     y_coords = []
 
 
-    for address in addresses.address:
+    for address in data.address:
         params['address'] = address
         r = requests.get(url, params = params)
         info = json.loads(r.text)
@@ -147,19 +140,47 @@ def geocode_addresses(data = 'co_stores_addresses.csv'):
 
         # track progress
         i += 1
-        if i % 10 == 0:
-            print(f'finished geocoding {i} of {len(addresses)} addresses')
-            print(f'{round(i / len(addresses) * 100, 2)}% done')
+        if i % 20 == 0:
+            print(f'finished geocoding {i} of {len(data)} addresses')
+            print(f'{round(i / len(data) * 100, 2)}% done')
 
-    addresses['tract'] = tracts
-    addresses['county'] = counties
-    addresses['x'] = x_coords
-    addresses['y'] = y_coords
+    data['tract'] = tracts
+    data['county'] = counties
+    data['x'] = x_coords
+    data['y'] = y_coords
 
-    addresses.to_csv('geocoded_stores.csv', index = False)
-    
+    return data    
+
+def geocode_coords(data):
+
+    counties = []
+    tracts = []
+
+    url = 'https://geo.fcc.gov/api/census/block/find'
+    params = {'censusYear': 2020, 'format': 'json'}
+
+    for store in data.itterrows():
+        params['latitude'] = store['LAT']
+        params['longitude'] = store['LONG']
+        r = requests.get(url, params = params)
+        try:
+            j = json.loads(r.text)
+            tracts.append(j['Block']['FIPS'][5:-4])
+            counties.append(j['County']['name'])
+        except:
+            counties.append(np.nan)
+            tracts.append(np.nan)
+
+    data['COUNTY'] = counties
+    data['TRACT'] = tracts
+
+    return data
 
 if __name__ == '__main__':
-    #google_addresses = get_store_addresses('co_cannabis_stores.csv')
-    #reformat_addresses(google_addresses)
-    geocoded_addresses = geocode_addresses()
+    google_addresses = get_store_addresses('co_cannabis_stores.csv')
+    formatted_addresses = reformat_addresses(google_addresses)
+    geocoded_addresses = geocode_coords(formatted_addresses)
+
+    # export geocoded addresses as CSV
+    geocoded_addresses.to_csv('geocoded_stores.csv', index = False)
+
