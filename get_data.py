@@ -282,13 +282,8 @@ def get_store_months(df):
     med_df = med_df.cumsum(axis = 1)
     rec_df = rec_df.cumsum(axis = 1)
     
-    med_df.columns = range(2014, 2022)
-    rec_df.columns = range(2014, 2022)
-    totals_df = pd.concat([med_df, rec_df])
     rec_df.columns = [str(year) + '_rec' for year in range(2014, 2022)]
     med_df.columns = [str(year) + '_med' for year in range(2014, 2022)]
-    totals_df.columns = [str(year) + '_total' for year in range(2014, 2022)]
-    #out_df = pd.concat([med_df, rec_df, totals_df])
     both_df = med_df.merge(rec_df, right_index = True, left_index = True)
     both_df['total'] = rec_df.max(axis = 1) + med_df.max(axis = 1)
     
