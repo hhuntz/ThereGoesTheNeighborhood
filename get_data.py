@@ -176,7 +176,7 @@ def geocode_addresses(data):
         info = json.loads(r.text)
         match = info['result']['addressMatches']
         if len(match) > 0:
-            tract = match[0]['geographies']['Census Tracts'][0]['BASENAME']
+            tract = match[0]['geographies']['Census Tracts'][0]['GEOID']
             county = match[0]['geographies']['Counties'][0]['BASENAME']
             x_coord = match[0]['coordinates']['x']
             y_coord = match[0]['coordinates']['y']
@@ -224,7 +224,7 @@ def geocode_coords(data):
         r = requests.get(url, params = params)
         try: # parse JSON response
             j = json.loads(r.text)
-            tracts.append(j['Block']['FIPS'][5:-4])
+            tracts.append(j['Block']['FIPS'][:-4])
             counties.append(j['County']['name'])
         except:
             # if no response, add NAN vals
@@ -290,29 +290,30 @@ def get_store_months(df):
     return both_df
 
 if __name__ == '__main__':
-    # 1. Filter the data and manage missing values
-    wrangled_stores = initial_wrangling('CO Cannabis Shops.xlsx')
+    # # 1. Filter the data and manage missing values
+    # wrangled_stores = initial_wrangling('CO Cannabis Shops.xlsx')
 
-    # 2. Transform to individual dispensary records
-    disp_level = get_disp_level(wrangled_stores)
+    # # 2. Transform to individual dispensary records
+    # disp_level = get_disp_level(wrangled_stores)
 
-    # 3. Use the Google Maps API (key req'd) to get formal addresses for each dispensary
-    google_addresses = get_store_addresses(disp_level)
+    # # 3. Use the Google Maps API (key req'd) to get formal addresses for each dispensary
+    # google_addresses = get_store_addresses(disp_level)
+    google_addresses = pd.read_csv('co_stores_addresses.csv')    
 
-    # 4. Use the US Census Bureau API to get gov't info (tract num, county, etc.) for each dispensary
+    # # 4. Use the US Census Bureau API to get gov't info (tract num, county, etc.) for each dispensary
 
-    # could use addresses instead of lat/long coords to geotag
-    #formatted_addresses = reformat_addresses(google_addresses)
-    #geocoded_addresses = geocode_addresses(formatted_addresses)
+    # # could use addresses instead of lat/long coords to geotag
+    # #formatted_addresses = reformat_addresses(google_addresses)
+    # #geocoded_addresses = geocode_addresses(formatted_addresses)
 
-    # use either above 2 lines or below 1
+    # # use either above 2 lines or below 1
     geocoded_addresses = geocode_coords(google_addresses)
 
-    # 5. Output the final dispensary-level data for analysis
-    geocoded_addresses.to_csv('geocoded_stores_v2.csv', index = False)
+    # # 5. Output the final dispensary-level data for analysis
+    geocoded_addresses.to_csv('geocoded_stores_fullFIPS.csv', index = False)
         
     # 6. Transform to tract-level records
-    tract_level = get_store_months(geocoded_addresses)
+    # tract_level = get_store_months(geocoded_addresses)
 
-    # 7. Out the final tract-level data for analysis
-    tract_level.to_csv('tract_records.csv')
+    # # 7. Out the final tract-level data for analysis
+    # tract_level.to_csv('tract_records.csv')
