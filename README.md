@@ -26,7 +26,8 @@
 
 ## Run Code
 
-1. Open Average Growth Rate Comparison.ipynb, click ***Cell -> Run All*** on the menu bar. Then, a group of histograms showing the general trend of difference between control and treatment group will be generated.
-2. Open Linear Regression .ipynb, click ***Cell -> Run All*** on the menu bar. Then, separate linear models for each outcome variable will be created and fitted. Their corresponding coefficients and p values will show up and be exported to Linear Regression Results.csv. In the same notebook, a group of scatter plots showing how outcome variable changes vs. different cumulative store months (outliers removed) can also be seen.
+1. Download the zip file from current repository.
+2. Open Average Growth Rate Comparison.ipynb, click ***Cell -> Run All*** on the menu bar. Then, a group of histograms showing the general trend of difference between control and treatment group will be generated.
+3. Open Linear Regression .ipynb, click ***Cell -> Run All*** on the menu bar. Then, separate linear models for each outcome variable will be created and fitted. Their corresponding coefficients and p values will show up and be exported to Linear Regression Results.csv. In the same notebook, a group of scatter plots showing how outcome variable changes vs. different cumulative store months (outliers removed) can also be seen.
 
 
