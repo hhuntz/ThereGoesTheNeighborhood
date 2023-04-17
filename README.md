@@ -15,6 +15,8 @@ If you'd additionally like to recreate our data gathering processes, the origina
 
 ## A Guide to the Files:
 
+### Core Files
+
 **tract_similarity_match.ipynb**
   - Divide control and treatment groups, and apply propensity score matching.
 
@@ -24,14 +26,22 @@ If you'd additionally like to recreate our data gathering processes, the origina
 **Average Growth Rate Comparison.ipynb**
   - Compare control and treatment groups.
 
-**Growth Rate Comparison.png**
-  - Histogram (result image) generated from 'Average Growth Rate Comparison'.
-
 **Linear Regression.ipynb**
   - Linear regression model to explore the relationships and p-values, also check the validity of the results got from 'Average Growth Rate Comparison'.
 
-**Scatter Plot.png**
-  - Scatter plots of how outcome variable changes vs. different cumulative store months, outliers removed.
-
 **Linear Regression Results.csv**
   - P values and coefficients from the linear regression model.
+
+**get_census_data.ipynb**
+  - Use [Cenpy] (https://github.com/cenpy-devs/cenpy) to get relevant Census economic variables for relevant years
+
+**get_data.py**
+  - Wrangle existing data from co_cannabis_stores.csv, add addresses from Google Maps API, add census tract and county numbers, output both tract-level and store-level data
+
+### Visualizations
+
+**Growth Rate Comparison.png**
+  - Histogram (result image) generated from 'Average Growth Rate Comparison'.
+
+**Scatter Plot.png**
+  - Scatter plots of how outcome variable changes vs. different cumulative store months, outliers removed.
