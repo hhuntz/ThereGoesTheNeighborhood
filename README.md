@@ -38,7 +38,7 @@ If you'd additionally like to recreate our data gathering processes, the origina
 **get_data.py**
   - Wrangle existing data from co_cannabis_stores.csv, add addresses from Google Maps API, add census tract and county numbers, output both tract-level and store-level data
 
-### Visualizations
+### <u>Visualizations</u>
 
 **Growth Rate Comparison.png**
   - Histogram (result image) generated from 'Average Growth Rate Comparison'.
