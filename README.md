@@ -27,7 +27,7 @@ If you'd additionally like to recreate our data gathering processes, the origina
 **Growth Rate Comparison.png**
   - Histogram (result image) generated from 'Average Growth Rate Comparison'.
 
-**Linear Regression .ipynb**
+**Linear Regression.ipynb**
   - Linear regression model to explore the relationships and p-values, also check the validity of the results got from 'Average Growth Rate Comparison'.
 
 **Scatter Plot.png**
