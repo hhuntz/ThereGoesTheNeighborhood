@@ -1,4 +1,4 @@
-# ThereGoesTheNeighborhood
+# There Goes the Neighborhood: Localized Economic Effects of Marijuana Retail Sales in Colorado
 
 ## Files
 
