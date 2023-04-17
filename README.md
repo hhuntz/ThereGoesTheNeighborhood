@@ -1,5 +1,5 @@
 # There Goes the Neighborhood: Localized Economic Effects of Marijuana Retail Sales in Colorado
-You can see the research paper resulting from this work [here](https://docs.google.com/document/d/1b-B1AH5x936uNTl-BACd1XyukfQ1K_p6i-C_gLP3j04/edit?usp=sharing)
+You can see the research paper resulting from this work [here](https://docs.google.com/document/d/1b-B1AH5x936uNTl-BACd1XyukfQ1K_p6i-C_gLP3j04/edit?usp=sharing).
 
 ## Recreating our Results:
 
