@@ -15,7 +15,7 @@ If you'd additionally like to recreate our data gathering processes, the origina
 
 ## A Guide to the Files:
 
-### Core Files*
+### Core Files
 
 **tract_similarity_match.ipynb**
   - Divide control and treatment groups, and apply propensity score matching.
@@ -38,7 +38,7 @@ If you'd additionally like to recreate our data gathering processes, the origina
 **get_data.py**
   - Wrangle existing data from co_cannabis_stores.csv, add addresses from Google Maps API, add census tract and county numbers, output both tract-level and store-level data
 
-### Visualizations*
+### Visualizations
 
 **Growth Rate Comparison.png**
   - Histogram (result image) generated from 'Average Growth Rate Comparison'.
@@ -46,7 +46,7 @@ If you'd additionally like to recreate our data gathering processes, the origina
 **Scatter Plot.png**
   - Scatter plots of how outcome variable changes vs. different cumulative store months, outliers removed.
   
-**Tableau_images_screenshots folder**
+**visualizations/Tableau_images_screenshots folder**
   - Screenshots of all visualizations that created using 
   
 **Tableau files folder**
