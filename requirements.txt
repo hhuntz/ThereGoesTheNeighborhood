@@ -1,0 +1,10 @@
+Libraries needed to run our code:
+
+pandas
+numpy 
+seaborn
+matplotlib
+sklearn
+statsmodels
+cenpy
+pymatch
